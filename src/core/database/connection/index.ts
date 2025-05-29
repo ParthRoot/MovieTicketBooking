@@ -1,13 +1,12 @@
-import { databaseConf } from '../config';
-import * as path from 'path';
-import { DataSource, DataSourceOptions } from 'typeorm';
-import { Auth, User } from '../entity';
+import { databaseConf } from "../config";
+import * as path from "path";
+import { DataSource, DataSourceOptions } from "typeorm";
 
 export const migrationFolder = path.join(
   __dirname,
-  '../migrations/**/*.{ts,js}',
+  "../migrations/**/*.{ts,js}"
 );
-export const entitiesFolder = path.join(__dirname, '../entity/**/*.{ts,js}');
+export const entitiesFolder = path.join(__dirname, "../entity/**/*.{ts,js}");
 export const ormConfig: DataSourceOptions = {
   replication: {
     master: {
@@ -23,8 +22,8 @@ export const ormConfig: DataSourceOptions = {
   entities: [entitiesFolder],
   subscribers: [],
   migrations: [migrationFolder],
-  migrationsTableName: 'migrations',
-  logging: 'all',
+  migrationsTableName: "migrations",
+  logging: "all",
   logger: databaseConf.LOG_LEVEL() as any,
   extra: {
     ssl: {
@@ -33,5 +32,5 @@ export const ormConfig: DataSourceOptions = {
   },
 };
 
-export const PostgresProviderToken = 'PG_DATASOURCE';
+export const PostgresProviderToken = "PG_DATASOURCE";
 export const AppDataSource = new DataSource(ormConfig);
