@@ -1,5 +1,6 @@
-import { Global, Module } from '@nestjs/common';
-import { AppDataSource, PostgresProviderToken } from '.';
+import { Global, Module } from "@nestjs/common";
+import { AppDataSource, PostgresProviderToken } from ".";
+import { RoleRepository, UserRepository } from "./repository";
 
 const SERVICES = [
   {
@@ -10,7 +11,7 @@ const SERVICES = [
   },
 ];
 
-const PG_REPOSITORIES = [];
+const PG_REPOSITORIES = [UserRepository, RoleRepository];
 
 @Global()
 @Module({

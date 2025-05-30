@@ -16,6 +16,12 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "rootDir": "./src",
+    "types": ["node", "jest"],
+    "paths": {
+      "@core/*": ["./src/core/*"]
+    }
+  },
+  "exclude": ["./dist/**", "./test", "test/jest.config.ts"]
 }

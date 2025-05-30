@@ -1,0 +1,16 @@
+import { Body, Controller, Post } from "@nestjs/common";
+import { UserService } from "./user.service";
+import { SignUpRequestDto } from "./dto/request";
+import { BaseResponseDto } from "@core/dto";
+import { messages } from "@core/utils";
+
+@Controller("user")
+export class UserController {
+  constructor(private readonly userService: UserService) {}
+
+  @Post()
+  async signUp(@Body() signUpRequestDto: SignUpRequestDto) {
+    const result = await this.userService.signUp(signUpRequestDto);
+    return new BaseResponseDto(messages.userSignUp, result);
+  }
+}
