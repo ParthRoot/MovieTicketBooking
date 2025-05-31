@@ -10,5 +10,8 @@ export const messages = {
   userNotFound: "User not found.",
   userNotActive: "User is not active.",
   userVerified: "User is already verified.",
+  notVerifyUser: "User is not verified, Please verified it.",
   invalidToken: "Token is invalid.",
+  invalidCredentials: "message.invalidCredentials",
+  loginSuccessfully: "User login successfully.",
 };

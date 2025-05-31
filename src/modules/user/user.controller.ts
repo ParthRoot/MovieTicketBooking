@@ -1,6 +1,10 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { UserService } from "./user.service";
-import { SignUpRequestDto, VerifyEmailRequestDto } from "./dto/request";
+import {
+  LoginRequestDto,
+  SignUpRequestDto,
+  VerifyEmailRequestDto,
+} from "./dto/request";
 import { BaseResponseDto } from "@core/dto";
 import { messages } from "@core/utils";
 
@@ -18,5 +22,11 @@ export class UserController {
   async verifyEmail(@Body() verifyEmailRequestDto: VerifyEmailRequestDto) {
     const result = await this.userService.verifyEmail(verifyEmailRequestDto);
     return new BaseResponseDto("", result);
+  }
+
+  @Post("/login")
+  async login(@Body() loginRequestDto: LoginRequestDto) {
+    const result = await this.userService.login(loginRequestDto);
+    return new BaseResponseDto(messages.loginSuccessfully, result);
   }
 }
