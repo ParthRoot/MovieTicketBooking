@@ -1,7 +1,7 @@
 import { JwtPayload } from "@core/utils";
 import { AvailableRoleEnum } from "./enum";
 
-export interface IUserPayload extends JwtPayload {
+export interface IIUserPayload extends JwtPayload {
   userId: string;
   email: string;
   role: AvailableRoleEnum;

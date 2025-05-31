@@ -55,7 +55,11 @@ export class UserRepository extends Repository<User> {
     return handleError(async () => {
       return await this.update(
         { user_id: user?.user_id },
-        { is_verified: true }
+        {
+          is_verified: true,
+          reset_password_token: null,
+          reset_password_expires_at: null,
+        }
       );
     });
   }

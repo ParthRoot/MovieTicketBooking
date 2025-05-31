@@ -31,13 +31,17 @@
     "migration:down": "typeorm-ts-node-commonjs migration:revert -d ./src/core/database/connection/index.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.821.0",
+    "@aws-sdk/s3-request-presigner": "^3.821.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/typeorm": "^11.0.0",
+    "aws-sdk": "^2.1692.0",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
+    "crypto-js": "^4.2.0",
     "dotenv": "^16.5.0",
     "express-correlation-id": "^3.0.1",
     "jsonwebtoken": "^9.0.2",

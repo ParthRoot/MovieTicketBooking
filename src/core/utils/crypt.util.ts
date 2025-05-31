@@ -7,7 +7,7 @@ import DateMoment from "moment";
 import { UnautherizationError } from "./error";
 import { BadRequestException } from "@nestjs/common";
 import { messages } from "./messages";
-import { IUserPayload } from "@core/database/config/interface";
+import { IIUserPayload } from "@core/database/config/interface";
 
 /**
  * It returns the md5 hash of the given string
@@ -244,7 +244,7 @@ export const assertJwt = (token?: string) => {
       throw new Error('Authorization should be "Bearer".');
     }
     const splitBearer = token.split(" ")[1];
-    const jwt = jwtVerify(String(splitBearer)) as IUserPayload | undefined;
+    const jwt = jwtVerify(String(splitBearer)) as IIUserPayload | undefined;
     return jwt;
   } catch (e) {
     if (e instanceof jwt.JsonWebTokenError) {

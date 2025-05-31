@@ -1,12 +1,11 @@
-import { LanguageCodes } from '@core/config';
-import { BadRequestException } from '@nestjs/common';
-import { Request } from 'express';
-import path from 'path';
+import { BadRequestException } from "@nestjs/common";
+import { Request } from "express";
+import path from "path";
 
 interface PaginationOffset {
-    limit: number;
-    offset: number;
-    pagenumber: number;
+  limit: number;
+  offset: number;
+  pagenumber: number;
 }
 
 /**
@@ -16,16 +15,8 @@ interface PaginationOffset {
  * @param suffix - Optional suffix to append to the URL.
  * @returns The complete URL string.
  */
-export function getUrl(req: Request, suffix = '') {
-    return `${req.protocol}://${req.get('Host')}${req.originalUrl}${suffix}`;
-}
-
-export function getLanguageFromHeaders(req: Request): string {
-    const language = Array.isArray(req.headers['x-request-language'])
-        ? req.headers['x-request-language'][0] || LanguageCodes.English
-        : req.headers['x-request-language'] || LanguageCodes.English;
-
-    return language;
+export function getUrl(req: Request, suffix = "") {
+  return `${req.protocol}://${req.get("Host")}${req.originalUrl}${suffix}`;
 }
 
 /**
@@ -35,10 +26,10 @@ export function getLanguageFromHeaders(req: Request): string {
  * @returns The URL-friendly slug.
  */
 export function createSlug(input: string): string {
-    return input
-        .toLowerCase()
-        .replace(/ /g, '-') // Replace spaces with dashes
-        .replace(/[^\w-]+/g, ''); // Remove non-word characters except dashes
+  return input
+    .toLowerCase()
+    .replace(/ /g, "-") // Replace spaces with dashes
+    .replace(/[^\w-]+/g, ""); // Remove non-word characters except dashes
 }
 
 /**
@@ -48,15 +39,15 @@ export function createSlug(input: string): string {
  * @returns The generated OTP.
  */
 export function otpGenerator(length: number) {
-    const characters = '0123456789';
+  const characters = "0123456789";
 
-    let result = '';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
+  let result = "";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
 
-    return result;
+  return result;
 }
 
 /**
@@ -65,12 +56,15 @@ export function otpGenerator(length: number) {
  * @param {number} recordPerPage
  * @return {PaginationOffset} PaginationOffset
  */
-export function getPaginateOffset(pageNumber: number, recordPerPage: number): PaginationOffset {
-    const pagenumber = pageNumber ? Number(pageNumber) : 1;
-    const limit = recordPerPage ? Number(recordPerPage) : 1000000;
-    const offset = (pagenumber - 1) * limit;
+export function getPaginateOffset(
+  pageNumber: number,
+  recordPerPage: number
+): PaginationOffset {
+  const pagenumber = pageNumber ? Number(pageNumber) : 1;
+  const limit = recordPerPage ? Number(recordPerPage) : 1000000;
+  const offset = (pagenumber - 1) * limit;
 
-    return { limit, offset, pagenumber };
+  return { limit, offset, pagenumber };
 }
 
 /**
@@ -82,21 +76,27 @@ export function getPaginateOffset(pageNumber: number, recordPerPage: number): Pa
  * @param data - The data to be paginated.
  * @returns An object containing pagination details and the paginated data.
  */
-export function createPagination(totalRecord: number, pageNumber: number, recordPerPage: number, data: any) {
-    let remainingCount = totalRecord - ((pageNumber - 1) * recordPerPage + data.length);
-    remainingCount = remainingCount >= 0 ? remainingCount : 0;
-    const result = {
-        pagination_data: {
-            total: totalRecord,
-            record_per_page: recordPerPage,
-            current_page: pageNumber,
-            total_pages: Math.ceil(totalRecord / recordPerPage),
-            next_page: remainingCount ? pageNumber + 1 : null,
-            remaining_count: remainingCount,
-        },
-        data,
-    };
-    return result;
+export function createPagination(
+  totalRecord: number,
+  pageNumber: number,
+  recordPerPage: number,
+  data: any
+) {
+  let remainingCount =
+    totalRecord - ((pageNumber - 1) * recordPerPage + data.length);
+  remainingCount = remainingCount >= 0 ? remainingCount : 0;
+  const result = {
+    pagination_data: {
+      total: totalRecord,
+      record_per_page: recordPerPage,
+      current_page: pageNumber,
+      total_pages: Math.ceil(totalRecord / recordPerPage),
+      next_page: remainingCount ? pageNumber + 1 : null,
+      remaining_count: remainingCount,
+    },
+    data,
+  };
+  return result;
 }
 
 /**
@@ -105,15 +105,18 @@ export function createPagination(totalRecord: number, pageNumber: number, record
  * @param maxSizeInBytes The maximum allowed file size in bytes.
  * @returns A new filename.
  */
-export function generateNewFilename(fileObj: any, maxSizeInBytes: number): string {
-    const name = fileObj.originalname.replace(/\s+/g, '').split('.')[0];
-    const ext = path.extname(fileObj.originalname);
+export function generateNewFilename(
+  fileObj: any,
+  maxSizeInBytes: number
+): string {
+  const name = fileObj.originalname.replace(/\s+/g, "").split(".")[0];
+  const ext = path.extname(fileObj.originalname);
 
-    validateImageFileExtension(ext);
-    checkFileSize(fileObj.size, maxSizeInBytes);
+  validateImageFileExtension(ext);
+  checkFileSize(fileObj.size, maxSizeInBytes);
 
-    const randomName = generateRandomName(6);
-    return `${name}_${randomName}${ext}`;
+  const randomName = generateRandomName(6);
+  return `${name}_${randomName}${ext}`;
 }
 
 /**
@@ -122,12 +125,19 @@ export function generateNewFilename(fileObj: any, maxSizeInBytes: number): strin
  * @throws BadRequestException if the file extension is not supported.
  */
 export function validateImageFileExtension(ext: string): void {
-    const allowedFileExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg'];
-    if (!allowedFileExtensions.includes(ext.toLowerCase())) {
-        throw new BadRequestException(
-            `File extension '${ext}' is not allowed. Supported extensions are ${allowedFileExtensions.join(', ')}.`,
-        );
-    }
+  const allowedFileExtensions = [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+    ".bmp",
+    ".svg",
+  ];
+  if (!allowedFileExtensions.includes(ext.toLowerCase())) {
+    throw new BadRequestException(
+      `File extension '${ext}' is not allowed. Supported extensions are ${allowedFileExtensions.join(", ")}.`
+    );
+  }
 }
 
 /**
@@ -136,10 +146,15 @@ export function validateImageFileExtension(ext: string): void {
  * @param maxSizeInBytes The maximum allowed file size in bytes.
  * @throws BadRequestException if the file size exceeds the maximum allowed size.
  */
-export function checkFileSize(fileSizeInBytes: number, maxSizeInBytes: number): void {
-    if (fileSizeInBytes > maxSizeInBytes) {
-        throw new BadRequestException(`File size exceeds the maximum allowed size of ${maxSizeInBytes / 1024} kb.`);
-    }
+export function checkFileSize(
+  fileSizeInBytes: number,
+  maxSizeInBytes: number
+): void {
+  if (fileSizeInBytes > maxSizeInBytes) {
+    throw new BadRequestException(
+      `File size exceeds the maximum allowed size of ${maxSizeInBytes / 1024} kb.`
+    );
+  }
 }
 
 /**
@@ -148,8 +163,8 @@ export function checkFileSize(fileSizeInBytes: number, maxSizeInBytes: number): 
  * @returns A random name.
  */
 export function generateRandomName(length: number): string {
-    return Array(length)
-        .fill(null)
-        .map(() => Math.round(Math.random() * 16).toString(16))
-        .join('');
+  return Array(length)
+    .fill(null)
+    .map(() => Math.round(Math.random() * 16).toString(16))
+    .join("");
 }
