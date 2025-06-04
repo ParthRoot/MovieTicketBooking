@@ -14,7 +14,7 @@ import { Seat } from "./seat.entity";
 @Entity("screen")
 export class Screen extends Base {
   @PrimaryGeneratedColumn("uuid")
-  screen_id: string;
+  screen_id!: string;
 
   @Column({ type: "varchar", length: 300, nullable: true })
   screen_name!: string;

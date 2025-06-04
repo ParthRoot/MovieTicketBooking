@@ -3,9 +3,9 @@ import {
   ExecutionContext,
   CallHandler,
   Injectable,
-} from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+} from "@nestjs/common";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 /**
  * Success response schema
@@ -25,15 +25,15 @@ export class TransformInterceptor<T>
   implements NestInterceptor<T, Response<T>>
 {
   intercept(
-    context: ExecutionContext,
-    next: CallHandler,
+    _context: ExecutionContext,
+    next: CallHandler
   ): Observable<Response<T>> {
     return next.handle().pipe(
       map((result) => ({
         is_error: false,
-        message: result?.message || '',
+        message: result?.message || "",
         data: result?.data || {},
-      })),
+      }))
     );
   }
 }

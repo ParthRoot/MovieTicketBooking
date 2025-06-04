@@ -1,17 +1,10 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Show } from "./show.entity";
 
 @Entity("movie")
 export class Movie {
   @PrimaryGeneratedColumn("uuid")
-  movie_id: string;
+  movie_id!: string;
 
   @Column({ type: "varchar", length: 300, nullable: true })
   movie_name!: string;
@@ -20,7 +13,7 @@ export class Movie {
   movie_description!: string;
 
   @Column({ type: "date" })
-  release_date: string; // e.g., '2025-05-25'
+  release_date!: string; // e.g., '2025-05-25'
 
   @OneToMany(() => Show, (show) => show.movie, { cascade: true })
   show!: Show[];

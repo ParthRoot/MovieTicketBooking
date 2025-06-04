@@ -13,7 +13,7 @@ import { User } from "./user.entity";
 @Entity("booking")
 export class Booking extends Base {
   @PrimaryGeneratedColumn("uuid")
-  booking_id: string;
+  booking_id!: string;
 
   @Column({ type: "varchar", length: 300, nullable: true })
   payment_type!: string;

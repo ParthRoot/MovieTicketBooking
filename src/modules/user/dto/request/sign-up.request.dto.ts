@@ -14,11 +14,11 @@ import { EMAIL_REGEX } from "@core/database/config/constant";
 export class SignUpRequestDto {
   @IsNotEmpty()
   @IsString()
-  first_name: string;
+  first_name!: string;
 
   @IsString()
   @IsNotEmpty()
-  last_name: string;
+  last_name!: string;
 
   @Matches(EMAIL_REGEX, {
     message: messages.validEmail,
@@ -40,10 +40,10 @@ export class SignUpRequestDto {
   @IsString()
   @IsMobilePhone()
   @MaxLength(10)
-  mobile_no: string;
+  mobile_no!: string;
 
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  avatar: string;
+  avatar!: string;
 }

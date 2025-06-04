@@ -1,3 +1,62 @@
+// {
+//   "compilerOptions": {
+//     "module": "commonjs",
+//     "declaration": true,
+//     "removeComments": true,
+//     "emitDecoratorMetadata": true,
+//     "experimentalDecorators": true,
+//     "allowSyntheticDefaultImports": true,
+//     "target": "ES2023",
+//     "sourceMap": true,
+//     "outDir": "./dist",
+//     "baseUrl": "./",
+//     "incremental": true,
+//     "skipLibCheck": true,
+//     "strictNullChecks": true,
+//     "forceConsistentCasingInFileNames": true,
+//     "noImplicitAny": false,
+//     "strictBindCallApply": false,
+//     "noFallthroughCasesInSwitch": false,
+//     "rootDir": "./src",
+//     "types": ["node", "jest"],
+//     "paths": {
+//       "@core/*": ["./src/core/*"]
+//     },
+
+//     "moduleResolution": "node",
+//     "strict": true,
+//     "useUnknownInCatchVariables": true,
+//     "composite": true,
+
+//     // strict mode
+//     "alwaysStrict": true,
+//     "noImplicitThis": true,
+//     "strictFunctionTypes": true,
+//     "strictPropertyInitialization": true,
+//     // no unused code
+//     "noUnusedLocals": true,
+//     "noUnusedParameters": true,
+//     "allowUnusedLabels": false,
+//     "allowUnreachableCode": false,
+//     // No implicit code
+//     "noImplicitOverride": true,
+//     "noImplicitReturns": true,
+//     //others
+//     "noUncheckedIndexedAccess": true,
+//     "noPropertyAccessFromIndexSignature": true,
+//     "exactOptionalPropertyTypes": true,
+//     // developer requirements
+//     "esModuleInterop": true,
+//     "downlevelIteration": true,
+//     "lib": ["esnext", "dom"],
+//     "typeRoots": ["./node_modules/@types"],
+//     "resolveJsonModule": true,
+//     "declarationMap": true
+//   },
+//   "exclude": ["./dist/**", "./test", "test/jest.config.ts"],
+//   "types": ["node", "mocha", "chai", "sinon", "cypress", "jest"]
+// }
+
 {
   "compilerOptions": {
     "module": "commonjs",
@@ -9,19 +68,17 @@
     "target": "ES2023",
     "sourceMap": true,
     "outDir": "./dist",
+    "rootDir": "./src",
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false,
-    "rootDir": "./src",
     "types": ["node", "jest"],
     "paths": {
       "@core/*": ["./src/core/*"]
     }
   },
-  "exclude": ["./dist/**", "./test", "test/jest.config.ts"]
+  "exclude": ["dist", "test", "node_modules"]
 }

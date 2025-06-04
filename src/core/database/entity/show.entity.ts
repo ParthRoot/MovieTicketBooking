@@ -3,7 +3,6 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Base } from "./base.entity";
@@ -14,16 +13,16 @@ import { Screen } from "./screen.entity";
 @Entity("show")
 export class Show extends Base {
   @PrimaryGeneratedColumn("uuid")
-  show_id: string;
+  show_id!: string;
 
   @Column({ type: "date" })
-  show_date: string; // e.g., '2025-05-25'
+  show_date!: string; // e.g., '2025-05-25'
 
   @Column({ type: "time" })
-  start_time: string; // e.g., '14:30:00' (2:30 PM)
+  start_time!: string; // e.g., '14:30:00' (2:30 PM)
 
   @Column({ type: "time" })
-  end_time: string; // e.g., '17:00:00' (5:00 PM)
+  end_time!: string; // e.g., '17:00:00' (5:00 PM)
 
   @ManyToOne(() => Movie, (movie) => movie.movie_id, {
     onDelete: "CASCADE",
