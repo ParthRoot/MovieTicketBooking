@@ -34,6 +34,7 @@ export class SignUpRequestDto {
   @Transform((e) => e.value.trim().toLocaleLowerCase())
   @IsUUID()
   @IsNotEmpty()
+  @IsOptional()
   role_id!: string;
 
   @IsNotEmpty()
@@ -43,7 +44,6 @@ export class SignUpRequestDto {
   mobile_no!: string;
 
   @IsString()
-  @IsNotEmpty()
   @IsOptional()
   avatar!: string;
 }

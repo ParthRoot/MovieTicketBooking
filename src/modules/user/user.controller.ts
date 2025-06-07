@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { UserService } from "./user.service";
 import {
   LoginRequestDto,
@@ -7,6 +7,7 @@ import {
 } from "./dto/request";
 import { BaseResponseDto } from "@core/dto";
 import { messages } from "@core/utils";
+import { GetPreSignUrlS3Query } from "./dto/query";
 
 @Controller("user")
 export class UserController {
@@ -28,5 +29,11 @@ export class UserController {
   async login(@Body() loginRequestDto: LoginRequestDto) {
     const result = await this.userService.login(loginRequestDto);
     return new BaseResponseDto(messages.loginSuccessfully, result);
+  }
+
+  @Get("presigned-url/upload")
+  async getPresignUrl(@Query() getPreSignUrlS3Query: GetPreSignUrlS3Query) {
+    const result = await this.userService.getPresignUrl(getPreSignUrlS3Query);
+    return new BaseResponseDto("", result);
   }
 }

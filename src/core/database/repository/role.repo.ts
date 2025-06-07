@@ -15,4 +15,10 @@ export class RoleRepository extends Repository<Role> {
       return await this.findOne({ where: { role_id: roleId } });
     });
   }
+
+  findRoleByRolename(roleName: string) {
+    return handleError(async () => {
+      return await this.findOne({ where: { role_name: roleName } });
+    });
+  }
 }

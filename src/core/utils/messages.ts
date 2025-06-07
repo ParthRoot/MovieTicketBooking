@@ -12,6 +12,6 @@ export const messages = {
   userVerified: "User is already verified.",
   notVerifyUser: "User is not verified, Please verified it.",
   invalidToken: "Token is invalid.",
-  invalidCredentials: "message.invalidCredentials",
+  invalidCredentials: "Invalid login details.",
   loginSuccessfully: "User login successfully.",
 };

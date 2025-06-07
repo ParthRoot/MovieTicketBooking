@@ -15,23 +15,29 @@ import {
 import {
   comparePassword,
   generateSaltAndHash,
+  getEnv,
   IVerifyEmailAndForgotPasswordTokenPayload,
   jwtRefreshSign,
   jwtSign,
   jwtSignForEmailVerificationAndForgotPassword,
   messages,
+  S3Util,
   tokeVerifyForEmailVerificationAndForgotPassword,
 } from "@core/utils";
 import { Role, User } from "@core/database";
 import {
   ForgotPasswordResponseDto,
   LoginResponseDto,
+  PreSignUrlResponseDto,
   SignUpResponseDto,
 } from "./dto/response";
+import { GetPreSignUrlS3Query } from "./dto/query";
 const { DateTime } = require("luxon");
 
 @Injectable()
 export class UserService {
+  public s3 = new S3Util();
+
   constructor(
     private readonly userRepo: UserRepository,
     private readonly roleRepo: RoleRepository
@@ -44,6 +50,16 @@ export class UserService {
    */
   async findRoleByRoleId(roleId: string): Promise<Role> {
     const role = await this.roleRepo.findRoleByRoleId(roleId);
+
+    if (!role) {
+      throw new NotFoundException(messages?.roleNotFound);
+    }
+
+    return role;
+  }
+
+  async findRoleByRoleName(roleName: string): Promise<Role> {
+    const role = await this.roleRepo.findRoleByRolename(roleName);
 
     if (!role) {
       throw new NotFoundException(messages?.roleNotFound);
@@ -72,15 +88,8 @@ export class UserService {
    * @returns Promise<SignUpResponseDto>
    */
   async signUp(signUpRequestDto: SignUpRequestDto): Promise<SignUpResponseDto> {
-    const {
-      email,
-      password,
-      first_name,
-      last_name,
-      role_id,
-      mobile_no,
-      avatar,
-    } = signUpRequestDto;
+    const { email, password, first_name, last_name, mobile_no, avatar } =
+      signUpRequestDto;
 
     const emailAvail = await this.userRepo.findUserByEmail(email);
 
@@ -88,7 +97,7 @@ export class UserService {
       throw new ConflictException(messages?.emailAlreadyExists);
     }
 
-    const role = await this.findRoleByRoleId(role_id);
+    const role = await this.findRoleByRoleName("customer");
 
     const passHash = await generateSaltAndHash(password);
 
@@ -225,5 +234,23 @@ export class UserService {
     });
 
     return new LoginResponseDto(getUser, token, refreshToken);
+  }
+
+  /**
+   * it will get the pre-sign url for s3
+   * @param getPreSignUrlS3Query: GetPreSignUrlS3Query
+   * @returns Promise<PreSignUrlResponseDto>
+   */
+  async getPresignUrl(
+    getPreSignUrlS3Query: GetPreSignUrlS3Query
+  ): Promise<PreSignUrlResponseDto> {
+    const { file_name } = getPreSignUrlS3Query;
+
+    const preSignedUrl = await this.s3.getPreSignedUploadRequestData(
+      getEnv("AWS_S3_BUCKET_NAME"),
+      `${getEnv("APP_ENV").toLowerCase()}/${file_name}`
+    );
+
+    return new PreSignUrlResponseDto(preSignedUrl);
   }
 }
